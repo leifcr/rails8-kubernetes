@@ -46,7 +46,7 @@ gem 'mission_control-jobs'
 gem 'mysql2', '~> 0.5.0'
 
 # Postgresql
-# gem 'pg', '~> 1.1'
+# gem 'pg'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
