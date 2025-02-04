@@ -1,7 +1,7 @@
 #!/bin/bash
 # Note: due to gitlab autodevops not setting args to any value, fallback to bundle exec rails server as default
 set -e
-echo "Rails entrypoint running: $1"
+echo "Rails 8.0 docker image entrypoint running: $1"
 case "$1" in
         bundle*)
         command="$1";;
