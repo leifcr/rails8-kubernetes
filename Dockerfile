@@ -1,4 +1,4 @@
-FROM ruby:3.3
+FROM ruby:3.4
 LABEL org.opencontainers.image.authors='leifcr@gmail.com'
 LABEL description='Image for running rails 7 apps on kubernetes, with common gems preinstalled. Based on ruby:3.3 image'
 
