@@ -1,6 +1,6 @@
 FROM ruby:3.4
 LABEL org.opencontainers.image.authors='leifcr@gmail.com'
-LABEL description='Image for running rails 7 apps on kubernetes, with common gems preinstalled. Based on ruby:3.3 image'
+LABEL description='Image for running rails 8 apps on kubernetes, with common gems preinstalled. Based on ruby:3.3 image'
 
 ENV APP_HOME=/app
 ENV LANG=C.UTF-8
@@ -19,9 +19,9 @@ RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 
 # Add mysql8
 RUN apt-get update && apt-get install -y lsb-release && \
-    wget https://repo.mysql.com/mysql-apt-config_0.8.33-1_all.deb && \
-    echo "mysql-apt-config mysql-apt-config/select-server select mysql-8.0" | debconf-set-selections && \
-    DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.33-1_all.deb
+    wget https://repo.mysql.com/mysql-apt-config_0.8.36-1_all.deb && \
+    echo "mysql-apt-config mysql-apt-config/select-server select mysql-8.4-lts" | debconf-set-selections && \
+    DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.36-1_all.deb
 
 # Install pkgs
 RUN apt-get update -q && apt-get upgrade -y \
@@ -31,7 +31,7 @@ RUN apt-get update -q && apt-get upgrade -y \
        libxslt1-dev \
        ghostscript \
        libmysqlclient-dev \
-       libmysqlclient21 \
+       libmysqlclient24 \
        mysql-client \
        postgresql-client \
        wget \
