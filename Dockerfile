@@ -2,14 +2,17 @@ FROM ruby:3.4
 LABEL org.opencontainers.image.authors='leifcr@gmail.com'
 LABEL description='Image for running rails 7 apps on kubernetes, with common gems preinstalled. Based on ruby:3.3 image'
 
-ENV APP_HOME /app
-ENV LANG C.UTF-8
+ENV APP_HOME=/app
+ENV LANG=C.UTF-8
 
 # For stretch:
 # RUN  apt-get install -y apt-transport-https ca-certificates gnupg wget --no-install-recommends && \
+RUN apt-get update -q && apt-get install -y --no-install-recommends ca-certificates curl gnupg wget \
+    && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /etc/apt/keyrings/yarn.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN curl -sL https://deb.nodesource.com/setup_24.x | bash - \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && apt-get update -q && apt-get upgrade -y \
     && apt-get install -y \
        build-essential \
