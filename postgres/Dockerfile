@@ -9,7 +9,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3A79BD29
 # RUN apt-key adv --keyserver pgp.mit.edu --recv-keys 3A79BD29
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 # Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
