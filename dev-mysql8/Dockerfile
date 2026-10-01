@@ -8,7 +8,7 @@ ENV LANG=C.UTF-8
 RUN apt-get update -q && apt-get install -y --no-install-recommends ca-certificates curl gnupg wget \
     && rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 | gpg --dearmor -o /etc/apt/trusted.gpg.d/mysql.gpg \
+    && curl -fsSL https://repo.mysql.com/RPM-GPG-KEY-mysql-2025 | gpg --dearmor -o /etc/apt/trusted.gpg.d/mysql.gpg \
     && curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg \
     && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
     && curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /etc/apt/keyrings/yarn.gpg \
@@ -18,10 +18,10 @@ RUN mkdir -p /etc/apt/keyrings \
 RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 
 # Add mysql8
-RUN apt-get update && apt-get install -y lsb-release && \
-    wget https://repo.mysql.com/mysql-apt-config_0.8.36-1_all.deb && \
-    echo "mysql-apt-config mysql-apt-config/select-server select mysql-8.4-lts" | debconf-set-selections && \
-    DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.36-1_all.deb
+# Configure the repo directly instead of via mysql-apt-config, whose debconf
+# prompt hangs the build when apt-get upgrade pulls in a newer version
+RUN . /etc/os-release \
+    && echo "deb http://repo.mysql.com/apt/debian $VERSION_CODENAME mysql-8.4-lts mysql-tools" > /etc/apt/sources.list.d/mysql.list
 
 # Install pkgs
 RUN apt-get update -q && apt-get upgrade -y \
